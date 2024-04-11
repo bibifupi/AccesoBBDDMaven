@@ -12,13 +12,15 @@ public class AccesoEmpleados extends Conexion {
     public List<Empleado> obtenerTodos() throws SQLException, ClassNotFoundException {
         PreparedStatement sentencia;
         ResultSet resu;
-        String sql = "Select employee_id, last_name, first_name, reports_to from employees";
+        String sql = "Select employee_id, last_name, first_name, reports_to, birth_date, city from employees";
         List<Empleado> empleados = new ArrayList<>();
         abrirConexion();
         sentencia = miConexion.prepareStatement(sql);
         resu = sentencia.executeQuery();
         while (resu.next()) {
-            empleados.add(new Empleado(resu.getInt("employee_id"), resu.getString("last_name"), resu.getString("first_name"), resu.getInt("reports_to")));
+            empleados.add(new Empleado(resu.getInt("employee_id"), resu.getString("last_name"), resu.getString("first_name"), resu.getInt("reports_to"),
+                    resu.getDate("birth_date").toLocalDate(),
+                    resu.getString("city")));
         }
         return empleados;
     }
@@ -26,7 +28,7 @@ public class AccesoEmpleados extends Conexion {
     public Empleado obtenerId(int idEmpleado) throws ClassNotFoundException, SQLException {
         PreparedStatement sentencia;
         ResultSet resultado;
-        String sql = "Select employee_id, last_name, first_name, reports_to from employees where employee_id=?";
+        String sql = "Select employee_id, last_name, first_name, reports_to, birth_date, city from employees where employee_id=?";
         Empleado emple = null;
         abrirConexion();
         sentencia = miConexion.prepareStatement(sql);
@@ -37,7 +39,9 @@ public class AccesoEmpleados extends Conexion {
             emple = new Empleado(resultado.getInt("employee_id"),
                     resultado.getString("last_name"),
                     resultado.getString("first_name"),
-                    resultado.getInt("reports_to"));
+                    resultado.getInt("reports_to"),
+                    resultado.getDate("birth_date").toLocalDate(),
+                    resultado.getString("city"));
         }
         return emple;
     }
@@ -57,7 +61,7 @@ public class AccesoEmpleados extends Conexion {
         sentencia.setInt(3, e.getJefe());
         sentencia.setInt(4, e.getIdEmpleado());
         //4. Actualizar
-        resu=sentencia.executeUpdate();
+        resu = sentencia.executeUpdate();
         //5. Devolver resultado
         return resu > 0;
     }
@@ -82,6 +86,7 @@ public class AccesoEmpleados extends Conexion {
         //5. Devolver resultado
         return resu > 0;
     }
+
     public boolean baja(int idEmpleado) throws SQLException, ClassNotFoundException {
         //1. Declarar variables
         PreparedStatement sentencia;

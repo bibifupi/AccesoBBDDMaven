@@ -5,6 +5,7 @@ import com.softtek.persistencia.AccesoEmpleados;
 import com.softtek.persistencia.Conexion;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 public class Main {
     public static void main(String[] args) {
@@ -17,8 +18,8 @@ public class Main {
             System.out.println(e.toString());
         }
         AccesoEmpleados aE1 = new AccesoEmpleados();
-        Empleado emple = new Empleado(1, "García", "Lola", 5);
-        Empleado emple2 = new Empleado(99, "Piris", "Zelda", 2);
+        Empleado emple = new Empleado(1, "García", "Lola", 5, LocalDate.now(),"Madrid");
+        Empleado emple2 = new Empleado(99, "Fupi", "Zelda", 2, LocalDate.now(),"Michilandia");
 
         System.out.println("\nObtener todos los empleados: \n");
         try {
