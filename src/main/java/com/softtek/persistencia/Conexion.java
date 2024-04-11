@@ -1,0 +1,33 @@
+package com.softtek.persistencia;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+
+public class Conexion {
+    //Atributos
+    protected Connection miConexion;
+
+    //Métodos
+    public void abrirConexion() throws ClassNotFoundException, SQLException {
+        Class.forName("org.postgresql.Driver"); //registra el driver en nuestra aplicacion para cuando hacemos aplicaciones web
+        miConexion = DriverManager.getConnection(
+                "jdbc:postgresql://127.0.0.1:5432/northwind",
+                "postgres", "Bibi8591!");
+        System.out.println("Éxito al abrir la conexión");
+    }
+
+    //Constructores
+    public Conexion() {
+
+    }
+    //Getters y Setters
+
+    public Connection getMiConexion() {
+        return miConexion;
+    }
+
+    public void setMiConexion(Connection miConexion) {
+        this.miConexion = miConexion;
+    }
+}
